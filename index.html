@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CA Durgutsav – Sponsorship Receipt Generator</title>
+<link rel="icon" href="logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--m:#6b0f1a;--g:#c9a14a;--c:#fbf3e4;--t:#3a1a1a}
+*{box-sizing:border-box}
+body{margin:0;background:#f3e6cf;font-family:'Cormorant Garamond',Georgia,serif;color:var(--t);padding:16px}
+.card{max-width:720px;margin:0 auto;background:var(--c);border:3px solid var(--m);outline:1px solid var(--g);outline-offset:-9px;padding:28px 26px;border-radius:4px}
+header{text-align:center}
+header img{width:150px;height:150px;object-fit:contain;border-radius:50%}
+h1{margin:6px 0 0;color:var(--m);font-size:28px;letter-spacing:1px}
+.sub{color:var(--m);letter-spacing:2px;font-size:14px;margin-bottom:10px}
+.badge{display:inline-block;background:var(--m);color:#fff;padding:6px 26px;border:2px solid var(--g);border-radius:14px;margin:8px 0 18px;font-size:19px;letter-spacing:1px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+label{display:block;font-weight:700;font-size:16px;color:var(--m);margin-bottom:3px}
+input,select,textarea{width:100%;padding:10px;font:inherit;font-size:18px;border:1.5px solid var(--g);border-radius:6px;background:#fff;color:var(--t)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--m)}
+fieldset{grid-column:1/-1;border:1.5px solid var(--g);border-radius:8px;padding:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:0}
+legend{color:var(--m);font-weight:700;padding:0 6px}
+small{color:#7a5a4a}
+.btns{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:700;font-size:19px;padding:12px 24px;border-radius:8px;cursor:pointer;border:2px solid var(--g)}
+.p{background:var(--m);color:#fff;flex:1}.s{background:#fff;color:var(--m)}
+@media(max-width:560px){form,fieldset{grid-template-columns:1fr}}
+</style></head><body>
+<div class="card">
+<header><img src="logo.jpg" alt="CA Durgutsav and Navratri Samiti">
+<h1>CA DURGUTSAV AND NAVRATRI SAMITI</h1>
+<div class="sub">CELEBRATING CULTURE. SPREADING DEVOTION.</div>
+<div class="badge">Sponsorship Receipt – Entry Form</div></header>
+<form id="f" action="receipt.html" method="get" target="_blank">
+<div><label>Receipt No. *</label><input name="rno" required placeholder="e.g. 001"></div>
+<div><label>Date *</label><input type="date" name="date" id="date" required></div>
+<fieldset><legend>Payment reference (optional)</legend>
+<div><label>Transaction ID</label><input name="tid"></div>
+<div><label>Transaction Date</label><input type="date" name="tdate"></div>
+<div><label>PAN Card</label><input name="pan" maxlength="10" style="text-transform:uppercase"></div></fieldset>
+<div class="full"><label>Received with thanks from *</label><input name="from" required placeholder="Sponsor / Vendor name"></div>
+<div class="full"><label>Address</label><textarea name="addr" rows="2" placeholder="Type the full address – it will print on one line and wrap only if long"></textarea></div>
+<div><label>Amount (₹) *</label><input type="number" name="amt" id="amt" min="1" step="0.01" required></div>
+<div><label>Amount in words <small>(auto – editable)</small></label><input name="words" id="words"></div>
+<div><label>Towards *</label><input name="towards" list="tw" required placeholder="e.g. Platinum Sponsorship"><datalist id="tw"><option>Platinum Sponsorship<option>Gold Sponsorship<option>Silver Sponsorship<option>Bhog Sponsorship<option>Decoration Sponsorship<option>Donation</datalist></div>
+<div><label>Payment Mode *</label><select name="mode" required><option>UPI</option><option>Bank Transfer</option><option>Cheque</option><option>Cash</option><option>Zelle</option><option>Card</option></select></div>
+<div><label>Reg. No.</label><input name="reg" id="reg" placeholder="Samiti registration no."></div>
+<div><label>Authorized Signatory (printed name)</label><input name="signer" id="signer"></div>
+<div class="btns"><button class="p" type="submit">Generate Receipt</button>
+<button class="s" type="button" onclick="location='receipt.html?sample=1'">View Sample</button></div>
+</form></div>
+<script>
+function words(n){n=Math.floor(n);if(!n)return'';const a='One Two Three Four Five Six Seven Eight Nine Ten Eleven Twelve Thirteen Fourteen Fifteen Sixteen Seventeen Eighteen Nineteen'.split(' '),b='_ _ Twenty Thirty Forty Fifty Sixty Seventy Eighty Ninety'.split(' ');
+const t=x=>x<20?a[x-1]:b[Math.floor(x/10)]+(x%10?' '+a[x%10-1]:'');
+const h=x=>(x>99?a[Math.floor(x/100)-1]+' Hundred'+(x%100?' ':''):'')+(x%100?t(x%100):'');
+let r='',p=[[1e7,'Crore'],[1e5,'Lakh'],[1e3,'Thousand']];
+for(const[v,nm]of p){if(n>=v){r+=h(Math.floor(n/v))+' '+nm+' ';n%=v}}
+if(n)r+=h(n);return r.trim()}
+const $=id=>document.getElementById(id);
+$('date').valueAsDate=new Date();
+try{$('reg').value=localStorage.reg||'';$('signer').value=localStorage.signer||''}catch(e){}
+$('amt').oninput=e=>{const v=parseFloat(e.target.value);$('words').value=v?'Rupees '+words(v)+' Only':''};
+$('f').onsubmit=()=>{try{localStorage.reg=$('reg').value;localStorage.signer=$('signer').value}catch(e){}};
+</script></body></html>

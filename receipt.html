@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sponsorship Receipt</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--m:#6b0f1a;--g:#c9a14a;--c:#fbf3e4}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:#d9cbb2;font-family:'Cormorant Garamond',Georgia,serif;color:#2b1212}
+.bar{position:sticky;top:0;background:var(--m);padding:10px;text-align:center;z-index:5}
+.bar button,.bar a{font:700 16px Georgia,serif;margin:0 4px;padding:8px 18px;border-radius:6px;border:1px solid var(--g);background:var(--c);color:var(--m);text-decoration:none;cursor:pointer}
+.wrap{overflow:auto;padding:14px 0}
+.page{width:210mm;height:297mm;margin:0 auto;background:var(--c);position:relative;border:4mm solid var(--m);padding:8mm 12mm;overflow:hidden}
+.page:before{content:"";position:absolute;inset:2mm;border:.4mm solid var(--g);pointer-events:none}
+.page:after{content:"";position:absolute;left:50%;top:58%;width:130mm;height:130mm;transform:translate(-50%,-50%);border-radius:50%;background:repeating-radial-gradient(circle,rgba(107,15,26,.05) 0 2mm,transparent 2mm 6mm);pointer-events:none}
+.c{position:absolute;width:12mm;height:12mm;border:1mm solid var(--g);transform:rotate(45deg);background:var(--m)}
+.c1{left:-6mm;top:-6mm}.c2{right:-6mm;top:-6mm}.c3{left:-6mm;bottom:-6mm}.c4{right:-6mm;bottom:-6mm}
+.head{display:flex;align-items:center;gap:6mm;position:relative;z-index:1}
+.head img{width:62mm;height:62mm;object-fit:contain;flex:none}
+.ht{flex:1;text-align:center}
+.ht h1{margin:0;color:var(--m);font-size:10.5mm;line-height:1.1;letter-spacing:.3mm}
+.tag{color:var(--m);font-size:4.3mm;letter-spacing:.5mm;margin:3mm 0;border-top:.3mm solid var(--g);border-bottom:.3mm solid var(--g);padding:2mm 0}
+.badge{display:inline-block;background:var(--m);color:#fff;border:.8mm solid var(--g);border-radius:4mm;padding:2mm 9mm;font-size:6.5mm;letter-spacing:.4mm;margin-top:2mm}
+.body{position:relative;z-index:1;margin-top:8mm;font-size:5.2mm}
+.row{display:flex;align-items:flex-end;gap:2mm;margin-bottom:5.5mm}
+.row .l{color:#4a1a1a;white-space:nowrap}
+.row .v{flex:1;border-bottom:.35mm solid var(--m);min-height:7.5mm;padding:0 2mm;font-weight:700;color:#1d0b0b;line-height:1.25}
+.box{border:.4mm solid var(--g);padding:3mm 3mm 0;margin:-1mm 0 5.5mm}
+.box .row{margin-bottom:3mm}
+.box .l{font-size:5mm}
+.amt{display:flex;align-items:center;width:105mm;height:20mm;border:.5mm solid var(--g);border-radius:2mm;margin:8mm 0 12mm;background:#fff9}
+.amt b{font-size:13mm;color:var(--m);width:18mm;text-align:center;border-right:.3mm solid var(--g);height:12mm;line-height:12mm}
+.amt span{font-size:8mm;font-weight:700;padding-left:5mm;color:#1d0b0b}
+.thx{text-align:center;color:var(--m);font-style:italic;font-size:5.6mm;position:relative;z-index:1}
+.thx:before,.thx:after{content:"◆ ───";color:var(--g);margin:0 3mm}
+.thx:after{content:"─── ◆"}
+.foot{position:absolute;left:12mm;right:12mm;bottom:10mm;display:flex;justify-content:space-between;align-items:flex-end;font-size:4.6mm;z-index:1}
+.sig{text-align:center;width:62mm;border-top:.35mm solid var(--m);padding-top:1mm}
+.sig i{display:block;font-weight:700;font-style:normal;color:#1d0b0b}
+@page{size:A4;margin:0}
+@media print{body{background:none}.bar{display:none}.wrap{padding:0;overflow:visible}.page{margin:0}}
+@media screen and (max-width:800px){.page{zoom:.45}}
+</style></head><body>
+<div class="bar"><button onclick="print()">⬇ Save as PDF / Print</button><a href="index.html">← New Receipt</a></div>
+<div class="wrap"><div class="page" id="p">
+<i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+<div class="head"><img src="logo.jpg" alt="CA Durgutsav and Navratri Samiti">
+<div class="ht"><h1>CA DURGUTSAV AND<br>NAVRATRI SAMITI</h1>
+<div class="tag">CELEBRATING CULTURE. SPREADING DEVOTION.</div>
+<div class="badge">SPONSORSHIP RECEIPT</div></div></div>
+<div class="body">
+<div style="display:flex;gap:10mm"><div class="row" style="flex:1"><span class="l">Receipt No. :</span><span class="v" id="rno"></span></div>
+<div class="row" style="flex:1"><span class="l">Date :</span><span class="v" id="date"></span></div></div>
+<div class="box"><div style="display:flex;gap:3mm"><div class="row" style="flex:1"><span class="l">Transaction ID :</span><span class="v" id="tid"></span></div>
+<div class="row" style="flex:1"><span class="l">Transaction Date :</span><span class="v" id="tdate"></span></div>
+<div class="row" style="flex:1"><span class="l">PAN Card :</span><span class="v" id="pan"></span></div></div></div>
+<div class="row"><span class="l">Received with thanks from :</span><span class="v" id="from"></span></div>
+<div class="row"><span class="l">Address :</span><span class="v" id="addr"></span></div>
+<div class="row"><span class="l">the sum of Rupees :</span><span class="v" id="words"></span></div>
+<div class="row"><span class="l">towards :</span><span class="v" id="towards"></span></div>
+<div class="row"><span class="l">Payment Mode :</span><span class="v" id="mode"></span></div>
+<div class="amt"><b>₹</b><span id="amt"></span></div>
+<div class="thx">Thank you for your generous support.</div></div>
+<div class="foot"><div>Reg. No. : <span id="reg" style="font-weight:700"></span></div>
+<div class="sig"><i id="signer">&nbsp;</i>Authorized Signature</div></div>
+</div></div>
+<script>
+const q=new URLSearchParams(location.search);
+if(q.get('sample')){['rno=001','date=2026-10-09','tid=UPI4081236655','tdate=2026-10-08','pan=ABCDE1234F','from=Sample Vendor Pvt. Ltd.','addr=12 MG Road, Indiranagar, Bengaluru, Karnataka 560038','amt=25000','towards=Gold Sponsorship','mode=UPI','reg=REG/2026/0001','signer=Treasurer'].forEach(s=>{const[k,v]=s.split('=');q.set(k,v)})}
+function words(n){n=Math.floor(n);if(!n)return'';const a='One Two Three Four Five Six Seven Eight Nine Ten Eleven Twelve Thirteen Fourteen Fifteen Sixteen Seventeen Eighteen Nineteen'.split(' '),b='_ _ Twenty Thirty Forty Fifty Sixty Seventy Eighty Ninety'.split(' ');
+const t=x=>x<20?a[x-1]:b[Math.floor(x/10)]+(x%10?' '+a[x%10-1]:'');
+const h=x=>(x>99?a[Math.floor(x/100)-1]+' Hundred'+(x%100?' ':''):'')+(x%100?t(x%100):'');
+let r='';for(const[v,nm]of[[1e7,'Crore'],[1e5,'Lakh'],[1e3,'Thousand']]){if(n>=v){r+=h(Math.floor(n/v))+' '+nm+' ';n%=v}}
+if(n)r+=h(n);return r.trim()}
+const fd=s=>{if(!s)return'';const[y,m,d]=s.split('-');return d?`${d}/${m}/${y}`:s};
+const set=(id,v)=>document.getElementById(id).textContent=v||'';
+['rno','tid','from','addr','towards','mode','reg','signer'].forEach(k=>set(k,q.get(k)));
+set('date',fd(q.get('date')));set('tdate',fd(q.get('tdate')));set('pan',(q.get('pan')||'').toUpperCase());
+const amt=parseFloat(q.get('amt'));
+set('amt',amt?amt.toLocaleString('en-IN',{minimumFractionDigits:amt%1?2:0})+'/-':'');
+set('words',q.get('words')?q.get('words').replace(/^Rupees\s*/i,''):(amt?words(amt)+' Only':''));
+document.title='Receipt_'+(q.get('rno')||'')+'_'+(q.get('from')||'').replace(/\W+/g,'_');
+</script></body></html>
